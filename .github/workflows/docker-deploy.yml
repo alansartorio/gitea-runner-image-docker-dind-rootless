@@ -1,7 +1,7 @@
 name: ci
 on: [push]
 jobs:
-  check-bats-version:
+  push-image:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -23,7 +23,6 @@ jobs:
         uses: docker/build-push-action@v7
         with:
           context: .
-          file: ./Dockerfile
-          platforms: ${{ matrix.platforms }}
           push: true
-          outputs: type=image,name=target,annotation-index.org.opencontainers.image.description=Docker image for using isolated docker inside a gitea actions job container 
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
